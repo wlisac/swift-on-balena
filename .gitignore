@@ -1,3 +1,9 @@
+# SPM
+/.build
+/Packages
+/*.xcodeproj
+
+
 # General
 .DS_Store
 .AppleDouble
