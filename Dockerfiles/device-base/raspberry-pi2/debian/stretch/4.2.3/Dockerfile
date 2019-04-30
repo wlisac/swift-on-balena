@@ -1,6 +1,6 @@
-# wlisac/raspberrypi-2-debian-swift:4.2.3-stretch
+# wlisac/raspberry-pi2-debian-swift:4.2.3-stretch
 
-FROM balenalib/raspberrypi-2-debian:stretch
+FROM balenalib/raspberry-pi2-debian:stretch
 
 LABEL maintainer "Will Lisac <will@lisac.org>"
 LABEL Description="Docker Container for Swift on Raspberry Pi"

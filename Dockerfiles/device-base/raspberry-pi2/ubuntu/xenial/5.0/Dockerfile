@@ -1,6 +1,6 @@
-# wlisac/raspberrypi-2-debian-swift:5.0-stretch
+# wlisac/raspberry-pi2-ubuntu-swift:5.0-xenial
 
-FROM balenalib/raspberrypi-2-debian:stretch
+FROM balenalib/raspberry-pi2-ubuntu:xenial
 
 LABEL maintainer "Will Lisac <will@lisac.org>"
 LABEL Description="Docker Container for Swift on Raspberry Pi"
@@ -30,7 +30,7 @@ RUN apt-get -q update && \
     clang \
     && rm -r /var/lib/apt/lists/*  
 
-ARG TARBALL_URL=https://github.com/uraimo/buildSwiftOnARM/releases/download/5.0/swift-5.0-threads_hotfix-RPi23-RaspbianStretch.tgz
+ARG TARBALL_URL=https://github.com/uraimo/buildSwiftOnARM/releases/download/5.0/swift-5.0-threads_hotfix-RPi23-Ubuntu1604.tgz
 ARG TARBALL_FILE=swift.tgz
 
 RUN curl -L -o $TARBALL_FILE $TARBALL_URL \

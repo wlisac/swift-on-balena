@@ -1,6 +1,6 @@
-# wlisac/raspberrypi-2-ubuntu-swift:4.2.3-xenial
+# wlisac/raspberry-pi2-ubuntu-swift:4.2.3-xenial
 
-FROM balenalib/raspberrypi-2-ubuntu:xenial
+FROM balenalib/raspberry-pi2-ubuntu:xenial
 
 LABEL maintainer "Will Lisac <will@lisac.org>"
 LABEL Description="Docker Container for Swift on Raspberry Pi"
