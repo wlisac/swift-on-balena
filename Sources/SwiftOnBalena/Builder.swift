@@ -15,7 +15,7 @@ public class Builder {
     public init() { }
     
     public func build(filter: ImageDescriptionFilter) throws {
-        let allFiles = Folder.current.makeFileSequence(recursive: true, includeHidden: false)
+        let allFiles = try Folder.current.subfolder(named: "Dockerfiles").makeFileSequence(recursive: true, includeHidden: false)
         
         let imageDescriptions = allFiles.compactMap { ImageDescription(file: $0) }
         
