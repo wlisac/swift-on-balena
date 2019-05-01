@@ -8,18 +8,22 @@
 import Foundation
 
 public struct ImageDescriptionFilter: Equatable {
-    public let fileName: String? = "Dockerfile"
-    public let operatingSystemName: String?
-    public let operatingSystemVersion: String?
-    public let swiftVersion: String?
-    public let baseType: String?
-    public let baseName: String?
+    public enum BaseType: String {
+        case device
+        case architecture
+    }
     
-    public init(operatingSystemName: String?,
-                operatingSystemVersion: String?,
-                swiftVersion: String?,
-                baseType: String?,
-                baseName: String?) {
+    public var operatingSystemName: String?
+    public var operatingSystemVersion: String?
+    public var swiftVersion: String?
+    public var baseType: BaseType?
+    public var baseName: String?
+    
+    public init(operatingSystemName: String? = nil,
+                operatingSystemVersion: String? = nil,
+                swiftVersion: String? = nil,
+                baseType: BaseType? = nil,
+                baseName: String? = nil) {
         self.operatingSystemName = operatingSystemName
         self.operatingSystemVersion = operatingSystemVersion
         self.swiftVersion = swiftVersion
@@ -31,8 +35,6 @@ public struct ImageDescriptionFilter: Equatable {
 extension ImageDescriptionFilter {
     // swiftlint:disable:next cyclomatic_complexity
     func includes(_ imageDescription: ImageDescription) -> Bool {
-        guard fileName == nil || fileName == imageDescription.file.name else { return false }
-        
         guard operatingSystemName == nil || operatingSystemName == imageDescription.operatingSystem.name else { return false }
         
         guard operatingSystemVersion == nil || operatingSystemVersion == imageDescription.operatingSystem.version else { return false }
@@ -41,12 +43,10 @@ extension ImageDescriptionFilter {
         
         if let baseType = baseType {
             switch baseType {
-            case "device":
+            case .device:
                 guard case .device(_) = imageDescription.base else { return false }
-            case "architecture":
+            case .architecture:
                 guard case .architecture(_) = imageDescription.base else { return false }
-            default:
-                return false
             }
         }
         

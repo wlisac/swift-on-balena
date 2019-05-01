@@ -14,49 +14,53 @@ public class Builder {
     
     public init() { }
     
-    public func build(filter: ImageDescriptionFilter) throws {
-        let allFiles = try Folder.current.subfolder(named: "Dockerfiles").makeFileSequence(recursive: true, includeHidden: false)
+    public func build(filter: ImageDescriptionFilter, push: Bool = false) throws {
+        print("Build Filter: \(filter)\n")
         
-        let imageDescriptions = allFiles.compactMap { ImageDescription(file: $0) }
+        let imageDescriptions = try ImageDescription.imageDescriptions(for: filter)
         
-        let matchingImageDescriptions = imageDescriptions.filter { filter.includes($0) }
+        print("Build Manifest:")
+        imageDescriptions.forEach {
+            print("    - \($0.dockerTag)")
+        }
         
-        try matchingImageDescriptions.forEach {
+        print()
+        
+        try imageDescriptions.forEach {
             try buildDockerImage(from: $0)
         }
         
-        matchingImageDescriptions.forEach {
+        imageDescriptions.forEach {
             print("Tagged: \($0.dockerTag)")
         }
-
-        try matchingImageDescriptions.forEach {
-            try pushDockerImage(from: $0)
-        }
-
-        matchingImageDescriptions.forEach {
-            print("Pushed: \($0.dockerTag)")
+        
+        if push {
+            try imageDescriptions.forEach {
+                try pushDockerImage(from: $0)
+            }
+            
+            imageDescriptions.forEach {
+                print("Pushed: \($0.dockerTag)")
+            }
         }
     }
     
-    public func buildDockerImage(from imageDescription: ImageDescription) throws {
+    func buildDockerImage(from imageDescription: ImageDescription) throws {
         print("Building docker image: \(imageDescription.dockerTag)")
         
-        let file = imageDescription.file
+        let file = try imageDescription.file()
         
         var context = CustomContext(main)
-        context.currentdirectory = file.parent!.path // swiftlint:disable:this force_unwrapping
+        context.currentdirectory = try imageDescription.folder().path
         let command = context.runAsyncAndPrint("docker", "build", "-t", imageDescription.dockerTag, "-f", file.name, ".")
         currentCommand = command
         try command.finish()
     }
     
-    public func pushDockerImage(from imageDescription: ImageDescription) throws {
+    func pushDockerImage(from imageDescription: ImageDescription) throws {
         print("Pushing docker image: \(imageDescription.dockerTag)")
         
-        let file = imageDescription.file
-        
-        var context = CustomContext(main)
-        context.currentdirectory = file.parent!.path // swiftlint:disable:this force_unwrapping
+        let context = CustomContext(main)
         let command = context.runAsyncAndPrint("docker", "push", imageDescription.dockerTag)
         currentCommand = command
         try command.finish()

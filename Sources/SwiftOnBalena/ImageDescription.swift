@@ -9,21 +9,75 @@ import Files
 import Foundation
 
 public struct ImageDescription: Equatable {
-    public let file: File
-    public let operatingSystem: OperatingSystem
-    public let swiftVersion: Version
-    public let base: ImageBase
+    public var operatingSystem: OperatingSystem
+    public var swiftVersion: Version
+    public var base: ImageBase
+}
+
+extension ImageDescription {
+    static func dockerfilesFolder() throws -> Folder {
+        return try Folder.current.subfolder(named: "Dockerfiles")
+    }
+    
+    static func imageDescriptions(for filter: ImageDescriptionFilter) throws -> [ImageDescription] {
+        let allFiles = try dockerfilesFolder().makeFileSequence(recursive: true, includeHidden: false)
+        let allImageDescriptions = allFiles.compactMap { ImageDescription(file: $0) }
+        let filtered = allImageDescriptions.filter { filter.includes($0) }
+        return filtered
+    }
 }
 
 extension ImageDescription {
     var dockerTag: String {
         return "wlisac/\(base.name)-\(operatingSystem.name)-swift:\(swiftVersion)-\(operatingSystem.version)"
     }
+    
+    var balenaFromDockerTag: String {
+        return "balenalib/\(base.name)-\(operatingSystem.name):\(operatingSystem.version)"
+    }
+    
+    func folder(createIfNeeded: Bool = false) throws -> Folder {
+        let folder = try ImageDescription.dockerfilesFolder()
+        
+        let baseTypeFolderName: String
+        let baseFolderName: String
+        
+        switch base {
+        case .architecture(let architecture):
+            baseTypeFolderName = "architecture-base"
+            baseFolderName = architecture.rawValue
+        case .device(let device):
+            baseTypeFolderName = "device-base"
+            baseFolderName = device.rawValue
+        }
+        
+        if createIfNeeded {
+            return try folder.createSubfolderIfNeeded(withName: baseTypeFolderName)
+                .createSubfolderIfNeeded(withName: baseFolderName)
+                .createSubfolderIfNeeded(withName: operatingSystem.name)
+                .createSubfolderIfNeeded(withName: operatingSystem.version)
+                .createSubfolderIfNeeded(withName: swiftVersion)
+        } else {
+            return try folder.createSubfolderIfNeeded(withName: baseTypeFolderName)
+                .subfolder(named: baseFolderName)
+                .subfolder(named: operatingSystem.name)
+                .subfolder(named: operatingSystem.version)
+                .subfolder(named: swiftVersion)
+        }
+    }
+    
+    func file(createIfNeeded: Bool = false) throws -> File {
+        if createIfNeeded {
+            return try folder(createIfNeeded: createIfNeeded).createFileIfNeeded(withName: "Dockerfile")
+        } else {
+            return try folder(createIfNeeded: createIfNeeded).file(named: "Dockerfile")
+        }
+    }
 }
 
 extension ImageDescription {
     init?(file: File) {
-        self.file = file
+        guard file.name == "Dockerfile" else { return nil }
         
         guard let swiftVersionFolder = file.parent,
             let osVersionFolder = swiftVersionFolder.parent,
@@ -34,7 +88,7 @@ extension ImageDescription {
         }
         
         switch baseTypeFolder.name {
-        case "arch-base":
+        case "architecture-base":
             guard let architecture = Architecture(rawValue: baseNameFolder.name) else { return nil }
             self.base = ImageBase.architecture(architecture)
         case "device-base":
@@ -59,39 +113,13 @@ extension ImageDescription {
 public typealias Version = String
 
 public struct OperatingSystem: Equatable {
-    public let name: String
-    public let version: Version
+    public var name: String
+    public var version: Version
     
     public init?(name: String, version: Version) {
         guard !name.isEmpty && !version.isEmpty else { return nil }
         self.name = name
         self.version = version
-    }
-}
-
-public enum Architecture: String, Equatable {
-    case rpi
-    case armv7hf
-    case aarch64
-}
-
-public enum Device: String, Equatable {
-    case raspberryPi = "raspberry-pi"
-    case raspberryPi2 = "raspberry-pi2"
-    case raspberryPi3 = "raspberrypi3"
-    case raspberryPi364 = "raspberrypi3-64"
-    
-    public var architecture: Architecture {
-        switch self {
-        case .raspberryPi:
-            return .rpi
-        case .raspberryPi2:
-            return .armv7hf
-        case .raspberryPi3:
-            return .armv7hf
-        case .raspberryPi364:
-            return .aarch64
-        }
     }
 }
 
