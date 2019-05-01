@@ -7,6 +7,8 @@
 
 import Files
 import Foundation
+import Version
+import MarkdownGenerator
 
 public class Generator {
     public init() { }
@@ -19,6 +21,8 @@ public class Generator {
         try imageDescriptions.forEach {
             try generateDeviceDockerfiles(from: $0)
         }
+        
+        try generateDockerImageMatrix()
     }
     
     func generateDeviceDockerfiles(from imageDescription: ImageDescription) throws {
@@ -61,11 +65,59 @@ public class Generator {
         
         print("Generated \(deviceImageDescription.dockerTag) from \(architectureImageDescription.dockerTag)")
     }
+    
+    public func generateDockerImageMatrix() throws {
+        let imageDescriptions = try ImageDescription.allImageDescriptions()
+        
+        let groupedByMajorVersion = try Dictionary(grouping: imageDescriptions) { (imageDescription) -> Int in
+            let versionString = imageDescription.swiftVersion
+            
+            guard let semver = Version(tolerant: imageDescription.swiftVersion) else {
+                throw GeneratorError.invalidVersion(versionString)
+            }
+            
+            return semver.major
+        }
+        
+        var markdown = [MarkdownConvertible]()
+        
+        groupedByMajorVersion.keys.sorted(by: >).forEach { major in
+            let deviceTableData: [[String]] = groupedByMajorVersion[major]!.compactMap {
+                guard case let .device(device) = $0.base else { return nil }
+                return [
+                    device.description,
+                    "\($0.operatingSystem.name) \($0.operatingSystem.version)".capitalized,
+                    $0.swiftVersion,
+                    "`\($0.dockerTag)`"
+                ]
+            }
+            
+            let architectureTableData: [[String]] = groupedByMajorVersion[major]!.compactMap {
+                guard case let .architecture(architecture) = $0.base else { return nil }
+                return [
+                    architecture.description,
+                    "\($0.operatingSystem.name) \($0.operatingSystem.version)".capitalized,
+                    $0.swiftVersion,
+                    "`\($0.dockerTag)`"
+                ]
+            }
+            
+            let deviceTable = MarkdownTable(headers: ["Device", "OS", "Swift", "Image"], data: deviceTableData)
+            
+            let genericTable = MarkdownTable(headers: ["Architecture", "OS", "Swift", "Image"], data: architectureTableData)
+            
+            markdown.append(deviceTable)
+            markdown.append(genericTable)
+        }
+        
+        print(markdown.markdown)
+    }
 }
 
 public enum GeneratorError: Error, CustomStringConvertible {
     case invalidBaseType(file: String)
     case invalidTagPrefix(file: String)
+    case invalidVersion(String)
     
     public var description: String {
         switch self {
@@ -73,6 +125,8 @@ public enum GeneratorError: Error, CustomStringConvertible {
             return "Generator error: Invalid base type for \(file)"
         case .invalidTagPrefix(let file):
             return "Generator error: Invalid tag prefix for \(file)"
+        case .invalidVersion(let version):
+            return "Generator error: Invalid version \(version)"
         }
     }
 }

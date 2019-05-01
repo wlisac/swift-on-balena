@@ -11,7 +11,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/kylef/Commander.git", from: "0.8.0"),
         .package(url: "https://github.com/kareman/SwiftShell", from: "5.0.0"),
-        .package(url: "https://github.com/JohnSundell/Files.git", from: "3.1.0")
+        .package(url: "https://github.com/JohnSundell/Files.git", from: "3.1.0"),
+        .package(url: "https://github.com/mxcl/Version.git", from: "1.0.0"),
+        .package(url: "https://github.com/eneko/MarkdownGenerator.git", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -24,7 +26,9 @@ let package = Package(
             name: "SwiftOnBalena",
             dependencies: [
                 "SwiftShell",
-                "Files"
+                "Files",
+                "MarkdownGenerator",
+                "Version"
             ])
     ]
 )

@@ -10,7 +10,7 @@ import Foundation
 
 public struct ImageDescription: Equatable {
     public var operatingSystem: OperatingSystem
-    public var swiftVersion: Version
+    public var swiftVersion: String
     public var base: ImageBase
 }
 
@@ -19,10 +19,14 @@ extension ImageDescription {
         return try Folder.current.subfolder(named: "Dockerfiles")
     }
     
-    static func imageDescriptions(for filter: ImageDescriptionFilter) throws -> [ImageDescription] {
+    static func allImageDescriptions() throws -> [ImageDescription] {
         let allFiles = try dockerfilesFolder().makeFileSequence(recursive: true, includeHidden: false)
         let allImageDescriptions = allFiles.compactMap { ImageDescription(file: $0) }
-        let filtered = allImageDescriptions.filter { filter.includes($0) }
+        return allImageDescriptions
+    }
+    
+    static func imageDescriptions(for filter: ImageDescriptionFilter) throws -> [ImageDescription] {
+        let filtered = try allImageDescriptions().filter { filter.includes($0) }
         return filtered
     }
 }
@@ -110,29 +114,36 @@ extension ImageDescription {
     }
 }
 
-public typealias Version = String
-
 public struct OperatingSystem: Equatable {
     public var name: String
-    public var version: Version
+    public var version: String
     
-    public init?(name: String, version: Version) {
+    public init?(name: String, version: String) {
         guard !name.isEmpty && !version.isEmpty else { return nil }
         self.name = name
         self.version = version
     }
 }
 
-public enum ImageBase: Equatable {
+public enum ImageBase: Equatable, CustomStringConvertible {
     case device(Device)
     case architecture(Architecture)
     
-    var name: String {
+    public var name: String {
         switch self {
-        case let .device(device):
+        case .device(let device):
             return device.rawValue
-        case let .architecture(architecture):
+        case .architecture(let architecture):
             return architecture.rawValue
+        }
+    }
+    
+    public var description: String {
+        switch self {
+        case .device(let device):
+            return device.description
+        case .architecture(let architecture):
+            return architecture.description
         }
     }
 }
