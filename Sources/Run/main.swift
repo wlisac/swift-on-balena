@@ -15,13 +15,9 @@ enum BuildCommandError: Error, CustomStringConvertible {
     }
 }
 
-let buildCommand = command(
-    Option("osName", default: ""),
-    Option("osVersion", default: ""),
-    Option("swiftVersion", default: ""),
-    Option("baseType", default: "", description: "architecture | device"),
-    Option("baseName", default: "", description: "architecture name | device name")
-) { osName, osVersion, swiftVersion, baseType, baseName in
+// MARK: - Arg Helpers
+
+func imageDescriptionFilterFromArgs(osName: String, osVersion: String, swiftVersion: String, baseType: String, baseName: String) throws -> ImageDescriptionFilter {
     let baseTypeEnumValue: ImageDescriptionFilter.BaseType?
     
     if baseType.isEmpty {
@@ -39,8 +35,41 @@ let buildCommand = command(
                                         baseType: baseTypeEnumValue,
                                         baseName: baseName.isEmpty ? nil : baseName)
     
+    return filter
+}
+
+// MARK: - Commands
+
+let buildCommand = command(
+    Option("osName", default: ""),
+    Option("osVersion", default: ""),
+    Option("swiftVersion", default: ""),
+    Option("baseType", default: "", description: "architecture | device"),
+    Option("baseName", default: "", description: "architecture name | device name")
+) { osName, osVersion, swiftVersion, baseType, baseName in
+    let filter = try imageDescriptionFilterFromArgs(osName: osName,
+                                                    osVersion: osVersion,
+                                                    swiftVersion: swiftVersion,
+                                                    baseType: baseType,
+                                                    baseName: baseName)
     builder = Builder()
-    try builder?.build(filter: filter)
+    try builder?.buildDockerImages(filter: filter)
+}
+
+let pushCommand = command(
+    Option("osName", default: ""),
+    Option("osVersion", default: ""),
+    Option("swiftVersion", default: ""),
+    Option("baseType", default: "", description: "architecture | device"),
+    Option("baseName", default: "", description: "architecture name | device name")
+) { osName, osVersion, swiftVersion, baseType, baseName in
+    let filter = try imageDescriptionFilterFromArgs(osName: osName,
+                                                    osVersion: osVersion,
+                                                    swiftVersion: swiftVersion,
+                                                    baseType: baseType,
+                                                    baseName: baseName)
+    builder = Builder()
+    try builder?.pushDockerImages(filter: filter)
 }
 
 let generateCommand = command {
@@ -48,8 +77,43 @@ let generateCommand = command {
     try generator.generateDeviceDockerfiles()
 }
 
+let tagDefaultImages = command(
+    Option("osName", default: ""),
+    Option("osVersion", default: ""),
+    Option("swiftVersion", default: ""),
+    Option("baseType", default: "", description: "architecture | device"),
+    Option("baseName", default: "", description: "architecture name | device name")
+) { osName, osVersion, swiftVersion, baseType, baseName in
+    let filter = try imageDescriptionFilterFromArgs(osName: osName,
+                                                osVersion: osVersion,
+                                                swiftVersion: swiftVersion,
+                                                baseType: baseType,
+                                                baseName: baseName)
+    builder = Builder()
+    try builder?.tagDefaultDeviceDockerImages(filter: filter)
+}
+
+let pushDefaultImages = command(
+    Option("osName", default: ""),
+    Option("osVersion", default: ""),
+    Option("swiftVersion", default: ""),
+    Option("baseType", default: "", description: "architecture | device"),
+    Option("baseName", default: "", description: "architecture name | device name")
+) { osName, osVersion, swiftVersion, baseType, baseName in
+    let filter = try imageDescriptionFilterFromArgs(osName: osName,
+                                                    osVersion: osVersion,
+                                                    swiftVersion: swiftVersion,
+                                                    baseType: baseType,
+                                                    baseName: baseName)
+    builder = Builder()
+    try builder?.pushDefaultDeviceDockerImages(filter: filter)
+}
+
 let main = Group {
     $0.addCommand("build", "builds images", buildCommand)
+    $0.addCommand("push", "push images", pushCommand)
+    $0.addCommand("tag-default-images", "tags default device images", tagDefaultImages)
+    $0.addCommand("push-default-images", "push default device images", pushDefaultImages)
     $0.addCommand("generate", "generate device images", generateCommand)
 }
 

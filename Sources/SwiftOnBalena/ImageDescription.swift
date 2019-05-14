@@ -32,8 +32,32 @@ extension ImageDescription {
 }
 
 extension ImageDescription {
+    var dockerNamespace: String {
+        return "wlisac"
+    }
+    
+    var dockerImageName: String {
+        return "\(base.name)-\(operatingSystem.name)-swift"
+    }
+    
+    var dockerTagName: String {
+        return "\(swiftVersion)-\(operatingSystem.version)"
+    }
+    
     var dockerTag: String {
-        return "wlisac/\(base.name)-\(operatingSystem.name)-swift:\(swiftVersion)-\(operatingSystem.version)"
+        return "\(dockerNamespace)/\(dockerImageName):\(dockerTagName)"
+    }
+    
+    var defaultOSDockerImageName: String {
+        return "\(base.name)-swift"
+    }
+    
+    var defaultOSDockerTagName: String {
+        return "\(swiftVersion)"
+    }
+    
+    var defaultOSDockerTag: String {
+        return "\(dockerNamespace)/\(defaultOSDockerImageName):\(defaultOSDockerTagName)"
     }
     
     var balenaFromDockerTag: String {
@@ -76,6 +100,13 @@ extension ImageDescription {
         } else {
             return try folder(createIfNeeded: createIfNeeded).file(named: "Dockerfile")
         }
+    }
+    
+    var isDeviceBase: Bool {
+        if case .device = base {
+            return true
+        }
+        return false
     }
 }
 
@@ -125,7 +156,7 @@ public struct OperatingSystem: Equatable {
     }
 }
 
-public enum ImageBase: Equatable, CustomStringConvertible {
+public enum ImageBase: Hashable, CustomStringConvertible {
     case device(Device)
     case architecture(Architecture)
     
@@ -144,6 +175,15 @@ public enum ImageBase: Equatable, CustomStringConvertible {
             return device.description
         case .architecture(let architecture):
             return architecture.description
+        }
+    }
+    
+    var architecture: Architecture {
+        switch self {
+        case .device(let device):
+            return device.architecture
+        case .architecture(let architecture):
+            return architecture
         }
     }
 }
