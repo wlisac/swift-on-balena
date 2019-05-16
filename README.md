@@ -5,15 +5,17 @@
 # Swift on Balena
 
 <p>
-    <img src="https://img.shields.io/badge/Swift-4 | 5-f2654a.svg" />
+    <img src="https://img.shields.io/badge/Swift-4 | 5-orange.svg" />
     <img src="https://img.shields.io/badge/architectures-ARMv6 | ARMv7 | ARMv8-lightgray.svg" />
     <a href="https://twitter.com/wlisac"><img src="https://img.shields.io/badge/twitter-@wlisac-blue.svg" /></a>
     <a href="https://launchpass.com/swift-arm"><img src="https://img.shields.io/badge/slack-swift--arm-purple.svg" /></a>
 </p>
 
-Swift Docker images for Raspberry Pi and other ARM devices from balena's base images.
+Welcome to **Swift on Balena** – a set of Docker images for Swift on Raspberry Pi and other ARM devices. These images are based on [balena's IoT focused Docker images](https://www.balena.io/docs/reference/base-images/base-images/) and make it easy to build and run Swift apps on ARM. 
 
-<!-- ## Getting Started -->
+## Getting Started
+
+Use this [sample project](https://github.com/wlisac/balena-swift-hello-world) to get started with Swift and Docker on your Raspberry Pi.
 
 
 ## Latest Releases
@@ -47,7 +49,7 @@ There are several image variants available depending on hardware, Linux distribu
 
 ### Image Naming Scheme
 
-The image naming scheme for Swift on Balena supports a subset of [balena's image naming scheme](https://www.balena.io/docs/reference/base-images/base-images/#how-the-image-naming-scheme-works) and follows the pattern below:
+The image naming scheme for Swift on Balena supports a subset of [balena's image naming scheme](https://www.balena.io/docs/reference/base-images/base-images/#how-the-image-naming-scheme-works) and follows the pattern below.
 
 ```plain
 wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>
@@ -55,7 +57,7 @@ wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>
 
 #### Image Names
 
-- `<hardware>` is either the device type or architecture and is required. See the [device list](todo) for available device names and architectures.
+- `<hardware>` is either the device type or architecture and is required. See the [device list](Documentation/Device%20List.md) for available device names and architectures.
 - `<distro>` is the Linux distribution. This is optional and will usually default to Debian, but may fall-back to Ubuntu if a Debian variant is not available.
 
 #### Image Tags
@@ -78,3 +80,13 @@ wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>
 - `<distro>`: ubuntu
 - `<swift_version>`: 4.2.3 – specifies Swift version 4.2.3
 - `<distro_version>`: bionic – Ubuntu 18.04
+
+## Acknowledgments
+
+Swift on Balena is possible because of the amazing work done by the Swift on ARM community and the projects below.
+
+- [uraimo/buildSwiftOnARM](https://github.com/uraimo/buildSwiftOnARM)
+- [futurejones/swift-arm64](https://github.com/futurejones/swift-arm64)
+- [helje5/dockSwiftOnARM](https://github.com/helje5/dockSwiftOnARM)
+
+Join the community in the [swift-arm](https://launchpass.com/swift-arm) Slack channel.
