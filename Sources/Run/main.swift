@@ -56,6 +56,22 @@ let buildCommand = command(
     try builder?.buildDockerImages(filter: filter)
 }
 
+let testCommand = command(
+    Option("osName", default: ""),
+    Option("osVersion", default: ""),
+    Option("swiftVersion", default: ""),
+    Option("baseType", default: "", description: "architecture | device"),
+    Option("baseName", default: "", description: "architecture name | device name")
+) { osName, osVersion, swiftVersion, baseType, baseName in
+    let filter = try imageDescriptionFilterFromArgs(osName: osName,
+                                                    osVersion: osVersion,
+                                                    swiftVersion: swiftVersion,
+                                                    baseType: baseType,
+                                                    baseName: baseName)
+    builder = Builder()
+    try builder?.testDockerImages(filter: filter)
+}
+
 let pushCommand = command(
     Option("osName", default: ""),
     Option("osVersion", default: ""),
@@ -111,6 +127,7 @@ let pushDefaultImages = command(
 
 let main = Group {
     $0.addCommand("build", "builds images", buildCommand)
+    $0.addCommand("test", "tests images", testCommand)
     $0.addCommand("push", "push images", pushCommand)
     $0.addCommand("tag-default-images", "tags default device images", tagDefaultImages)
     $0.addCommand("push-default-images", "push default device images", pushDefaultImages)

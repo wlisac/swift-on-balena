@@ -56,6 +56,27 @@ public class Builder {
         }
     }
     
+    public func testDockerImages(filter: ImageDescriptionFilter) throws {
+        print("Test Filter: \(filter)\n")
+        
+        let imageDescriptions = try ImageDescription.imageDescriptions(for: filter)
+        
+        print("Test Manifest:")
+        imageDescriptions.forEach {
+            print("    - \($0.dockerTag)")
+        }
+        
+        print()
+        
+        try imageDescriptions.forEach {
+            try testDockerImage(from: $0)
+        }
+        
+        imageDescriptions.forEach {
+            print("Tested: \($0.dockerTag)")
+        }
+    }
+    
     func buildDockerImage(from imageDescription: ImageDescription) throws {
         print("Building docker image: \(imageDescription.dockerTag)")
         
@@ -63,12 +84,12 @@ public class Builder {
         
         var context = CustomContext(main)
         context.currentdirectory = try imageDescription.folder().path
-        let command = context.runAsyncAndPrint("docker", "build", "-t", imageDescription.dockerTag, "-f", file.name, ".")
+        let command = context.runAsyncAndPrint("docker", "build", "--pull", "-t", imageDescription.dockerTag, "-f", file.name, ".")
         currentCommand = command
         try command.finish()
         
         if case .architecture(_) = imageDescription.base {
-            try testDockerImage(from: imageDescription)
+//            try testDockerImage(from: imageDescription)
 //            try testDockerImageOnRemoteHost(from: imageDescription)
         }
     }
