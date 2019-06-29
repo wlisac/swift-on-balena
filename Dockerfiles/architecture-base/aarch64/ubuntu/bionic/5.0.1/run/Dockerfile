@@ -1,0 +1,39 @@
+# wlisac/aarch64-ubuntu-swift:5.0.1-bionic-run
+
+ARG BASE_IMAGE=balenalib/aarch64-ubuntu:bionic
+
+# Download and decompress the tarball into an intermediate container
+# to improve cache accross different base image variations
+
+FROM balenalib/aarch64-ubuntu:bionic as downloader
+
+LABEL Description="Swift Downloader"
+
+ARG TARBALL_URL=https://github.com/futurejones/swift-arm64/releases/download/v5.0.1-RELEASE/swift-5.0.1-aarch64-RELEASE-Ubuntu-18.04_2019-05-17.tar.gz
+ARG TARBALL_FILE=swift.tgz
+
+WORKDIR /swift
+
+RUN curl -L -o $TARBALL_FILE $TARBALL_URL \
+    && tar -xvzf $TARBALL_FILE -C /swift \
+    && rm $TARBALL_FILE
+
+# Create base image
+
+FROM $BASE_IMAGE-run
+
+LABEL maintainer "Will Lisac <will@lisac.org>"
+LABEL Description="Docker Container for Swift on Balena"
+
+# Dependencies from official Swift Dockerfile for Swift 5.0 on Ubuntu 18.04
+# https://github.com/apple/swift-docker/blob/bdd1aba3f1bc66139e1daff609a4037a7fa8cd8a/5.0/ubuntu/18.04/slim/Dockerfile
+
+RUN install_packages \
+    libatomic1 \
+    libbsd0 \
+    libcurl4 \
+    libxml2 \
+    tzdata
+
+# Copy files from downloader to root
+COPY --from=downloader /swift/usr/lib/swift/linux /usr/lib/swift/linux
