@@ -95,6 +95,12 @@ public class Builder {
     }
     
     func testDockerImage(from imageDescription: ImageDescription) throws {
+        // TODO: Implement test suite for run variant docker images
+        guard imageDescription.buildVariant == .build else {
+            print("Skipping test suite for '\(imageDescription.buildVariant.rawValue)' docker image: \(imageDescription.dockerTag)")
+            return
+        }
+        
         print("Starting test suite for docker image: \(imageDescription.dockerTag)")
         
         guard let testSuiteFolder = try Folder.current.parent?.subfolder(named: "SwiftOnBalenaTestSuite") else {
