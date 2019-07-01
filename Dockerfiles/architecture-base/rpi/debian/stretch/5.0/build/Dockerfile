@@ -1,6 +1,6 @@
 # wlisac/rpi-debian-swift:5.0-stretch-build
 
-ARG BASE_IMAGE=balenalib/rpi-debian:stretch
+ARG BASE_IMAGE=balenalib/rpi-debian:stretch-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations
