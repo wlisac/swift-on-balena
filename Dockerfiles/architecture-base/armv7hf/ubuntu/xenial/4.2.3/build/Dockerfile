@@ -1,4 +1,4 @@
-# wlisac/armv7hf-ubuntu-swift:4.2.3-xenial
+# wlisac/armv7hf-ubuntu-swift:4.2.3-xenial-build
 
 ARG BASE_IMAGE=balenalib/armv7hf-ubuntu:xenial
 

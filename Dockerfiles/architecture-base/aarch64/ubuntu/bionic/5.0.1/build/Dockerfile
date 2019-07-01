@@ -1,4 +1,4 @@
-# wlisac/aarch64-ubuntu-swift:5.0.1-bionic
+# wlisac/aarch64-ubuntu-swift:5.0.1-bionic-build
 
 ARG BASE_IMAGE=balenalib/aarch64-ubuntu:bionic
 

@@ -1,4 +1,4 @@
-# wlisac/aarch64-ubuntu-swift:5.0-xenial
+# wlisac/aarch64-ubuntu-swift:5.0-xenial-build
 
 ARG BASE_IMAGE=balenalib/aarch64-ubuntu:xenial
 

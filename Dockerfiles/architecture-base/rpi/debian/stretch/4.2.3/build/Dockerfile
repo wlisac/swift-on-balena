@@ -1,4 +1,4 @@
-# wlisac/rpi-debian-swift:4.2.3-stretch
+# wlisac/rpi-debian-swift:4.2.3-stretch-build
 
 ARG BASE_IMAGE=balenalib/rpi-debian:stretch
 

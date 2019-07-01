@@ -1,4 +1,4 @@
-# wlisac/armv7hf-ubuntu-swift:5.0-bionic
+# wlisac/armv7hf-ubuntu-swift:5.0-bionic-build
 
 ARG BASE_IMAGE=balenalib/armv7hf-ubuntu:bionic
 

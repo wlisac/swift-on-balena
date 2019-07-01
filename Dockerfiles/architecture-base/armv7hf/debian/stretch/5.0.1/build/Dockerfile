@@ -1,4 +1,4 @@
-# wlisac/armv7hf-debian-swift:5.0.1-stretch
+# wlisac/armv7hf-debian-swift:5.0.1-stretch-build
 
 ARG BASE_IMAGE=balenalib/armv7hf-debian:stretch
 
