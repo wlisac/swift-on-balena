@@ -1,0 +1,43 @@
+# wlisac/armv7hf-ubuntu-swift:4.2.3-xenial-run
+
+ARG BASE_IMAGE=balenalib/armv7hf-ubuntu:xenial
+
+# Download and decompress the tarball into an intermediate container
+# to improve cache accross different base image variations
+
+FROM balenalib/armv7hf-ubuntu:xenial as downloader
+
+LABEL Description="Swift Downloader"
+
+ARG TARBALL_URL=https://github.com/uraimo/buildSwiftOnARM/releases/download/4.2.3/swift-4.2.3-RPi23-Ubuntu1604.tgz
+ARG TARBALL_FILE=swift.tgz
+
+WORKDIR /swift
+
+RUN curl -L -o $TARBALL_FILE $TARBALL_URL \
+    && tar -xvzf $TARBALL_FILE -C /swift \
+    && rm $TARBALL_FILE
+
+# Create base image
+
+FROM $BASE_IMAGE-run
+
+LABEL maintainer "Will Lisac <will@lisac.org>"
+LABEL Description="Docker Container for Swift on Balena"
+
+# There isn't an official Swift 4 slim Dockerfile to see dependencies
+# Dependencies from official Swift Dockerfile for Swift 5.0 on Ubuntu 16.04
+# https://github.com/apple/swift-docker/blob/bdd1aba3f1bc66139e1daff609a4037a7fa8cd8a/5.0/ubuntu/16.04/slim/Dockerfile
+
+# Needed to replace libcurl3 with libcurl4-nss-dev
+# https://github.com/uraimo/buildSwiftOnARM/tree/fc3ac47b2ce60b0098f44c7961f8295231698c99#dependencies
+
+RUN install_packages \
+    libatomic1 \
+    libbsd0 \
+    libcurl4-nss-dev \
+    libxml2 \
+    tzdata
+
+# Copy files from downloader to root
+COPY --from=downloader /swift/usr/lib/swift/linux /usr/lib/swift/linux

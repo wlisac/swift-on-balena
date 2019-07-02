@@ -18,17 +18,20 @@ public struct ImageDescriptionFilter: Equatable {
     public var swiftVersion: String?
     public var baseType: BaseType?
     public var baseName: String?
+    public var buildVariant: String?
     
     public init(operatingSystemName: String? = nil,
                 operatingSystemVersion: String? = nil,
                 swiftVersion: String? = nil,
                 baseType: BaseType? = nil,
-                baseName: String? = nil) {
+                baseName: String? = nil,
+                buildVariant: String? = nil) {
         self.operatingSystemName = operatingSystemName
         self.operatingSystemVersion = operatingSystemVersion
         self.swiftVersion = swiftVersion
         self.baseType = baseType
         self.baseName = baseName
+        self.buildVariant = buildVariant
     }
 }
 
@@ -40,6 +43,8 @@ extension ImageDescriptionFilter {
         guard operatingSystemVersion == nil || operatingSystemVersion == imageDescription.operatingSystem.version else { return false }
         
         guard swiftVersion == nil || swiftVersion == imageDescription.swiftVersion else { return false }
+        
+        guard buildVariant == nil || buildVariant == imageDescription.buildVariant.rawValue else { return false }
         
         if let baseType = baseType {
             switch baseType {

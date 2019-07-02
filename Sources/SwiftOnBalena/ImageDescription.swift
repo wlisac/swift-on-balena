@@ -12,6 +12,7 @@ public struct ImageDescription: Equatable {
     public var operatingSystem: OperatingSystem
     public var swiftVersion: String
     public var base: ImageBase
+    public var buildVariant: BuildVariant
 }
 
 extension ImageDescription {
@@ -41,7 +42,7 @@ extension ImageDescription {
     }
     
     var dockerTagName: String {
-        return "\(swiftVersion)-\(operatingSystem.version)"
+        return "\(swiftVersion)-\(operatingSystem.version)-\(buildVariant.rawValue)"
     }
     
     var dockerTag: String {
@@ -57,7 +58,7 @@ extension ImageDescription {
     }
     
     var defaultOSDockerTag: String {
-        return "\(dockerNamespace)/\(defaultOSDockerImageName):\(defaultOSDockerTagName)"
+        return "\(dockerNamespace)/\(defaultOSDockerImageName):\(defaultOSDockerTagName)-\(buildVariant.rawValue)"
     }
     
     var balenaFromDockerTag: String {
@@ -85,12 +86,14 @@ extension ImageDescription {
                 .createSubfolderIfNeeded(withName: operatingSystem.name)
                 .createSubfolderIfNeeded(withName: operatingSystem.version)
                 .createSubfolderIfNeeded(withName: swiftVersion)
+                .createSubfolderIfNeeded(withName: buildVariant.rawValue)
         } else {
             return try folder.createSubfolderIfNeeded(withName: baseTypeFolderName)
                 .subfolder(named: baseFolderName)
                 .subfolder(named: operatingSystem.name)
                 .subfolder(named: operatingSystem.version)
                 .subfolder(named: swiftVersion)
+                .subfolder(named: buildVariant.rawValue)
         }
     }
     
@@ -114,7 +117,8 @@ extension ImageDescription {
     init?(file: File) {
         guard file.name == "Dockerfile" else { return nil }
         
-        guard let swiftVersionFolder = file.parent,
+        guard let buildVariantFolder = file.parent,
+            let swiftVersionFolder = buildVariantFolder.parent,
             let osVersionFolder = swiftVersionFolder.parent,
             let osNameFolder = osVersionFolder.parent,
             let baseNameFolder = osNameFolder.parent,
@@ -142,6 +146,12 @@ extension ImageDescription {
         guard !swiftVersionFolder.name.isEmpty else { return nil }
         
         self.swiftVersion = swiftVersionFolder.name
+        
+        guard let buildVariant = BuildVariant(rawValue: buildVariantFolder.name) else {
+            return nil
+        }
+        
+        self.buildVariant = buildVariant
     }
 }
 
@@ -186,4 +196,9 @@ public enum ImageBase: Hashable, CustomStringConvertible {
             return architecture
         }
     }
+}
+
+public enum BuildVariant: String {
+    case build
+    case run
 }

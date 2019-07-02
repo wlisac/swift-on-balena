@@ -5,8 +5,9 @@ The build / test / release process is currently pretty manual and not usable by 
 Below is an example process to add Swift 5.0.1 for aarch64 devices:
 
 - Create new 5.0.1 folders in `Dockerfiles/architecture-base/aarch64/{osName}/{osVersion}` for each OS variant
+- Add build and run folders
 - Add Dockerfiles (typically these are based on previous Dockerfiles or from the official swift-docker repo)
-- Update Dockerfile comment (`# wlisac/aarch64-ubuntu-swift:5.0.1-xenial`) and tarball URL
+- Update Dockerfile comment (`# wlisac/aarch64-ubuntu-swift:5.0.1-xenial-build`) and tarball URL
 - Run `swift run Run build --swiftVersion 5.0.1` to build the architecture base images
 - Run `swift run Run test --swiftVersion 5.0.1` to test the architecture base images
 - Run `swift run Run generate` to generate the device base image Dockerfiles
