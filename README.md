@@ -20,14 +20,15 @@ Use this [sample project](https://github.com/wlisac/balena-swift-hello-world) to
 
 ## Latest Releases
 
-| Device                  | Architecture | Swift | Docker Image                                     |
-| ----------------------- | ------------ | ----- | ------------------------------------------------ |
-| Raspberry Pi (v1 or Zero)   | armv6      | 5.0.1   | [`wlisac/raspberry-pi-swift:5.0.1`](https://hub.docker.com/r/wlisac/raspberry-pi-swift/tags)   |
-| Raspberry Pi 2          | armv7hf      | 5.0.1   | [`wlisac/raspberry-pi2-swift:5.0.1`](https://hub.docker.com/r/wlisac/raspberry-pi2-swift/tags)   |
-| Raspberry Pi 3          | armv7hf      | 5.0.1   | [`wlisac/raspberrypi3-swift:5.0.1`](https://hub.docker.com/r/wlisac/raspberrypi3-swift/tags)   |
-| Raspberry Pi 3 (using 64 bit OS) | aarch64      | 5.0.1   | [`wlisac/raspberrypi3-64-swift:5.0.1`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags) |
-| Generic ARMv7-a HF          | armv7hf      | 5.0.1   | [`wlisac/generic-armv7ahf-swift:5.0.1`](https://hub.docker.com/r/wlisac/generic-armv7ahf-swift/tags)   |
-| Generic AARCH64 (ARMv8) | aarch64      | 5.0.1   | [`wlisac/generic-aarch64-swift:5.0.1`](https://hub.docker.com/r/wlisac/generic-aarch64-swift/tags) |
+| Device                           | Architecture | Swift | Docker Image                                                                                               |
+|----------------------------------|--------------|-------|------------------------------------------------------------------------------------------------------------|
+| Raspberry Pi (v1 or Zero)        | armv6        | 5.0.1 | [`wlisac/raspberry-pi-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi-swift/tags)         |
+| Raspberry Pi 2                   | armv7hf      | 5.0.1 | [`wlisac/raspberry-pi2-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi2-swift/tags)       |
+| Raspberry Pi 3                   | armv7hf      | 5.0.1 | [`wlisac/raspberrypi3-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-swift/tags)         |
+| Raspberry Pi 3 (using 64 bit OS) | aarch64      | 5.0.1 | [`wlisac/raspberrypi3-64-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags)   |
+| Generic ARMv7-a HF               | armv7hf      | 5.0.1 | [`wlisac/generic-armv7ahf-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/generic-armv7ahf-swift/tags) |
+| Generic AARCH64 (ARMv8)          | aarch64      | 5.0.1 | [`wlisac/generic-aarch64-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/generic-aarch64-swift/tags)   |
+
 
 ## Image Variants
 
@@ -46,13 +47,14 @@ There are several image variants available depending on hardware, Linux distribu
 - Swift Versions
     - Swift 4 (`4.2.3`)
     - Swift 5 (`5.0.1`, `5.0`)
+- `build` and `run` image variants for multi-stage builds
 
 ### Image Naming Scheme
 
 The image naming scheme for Swift on Balena supports a subset of [balena's image naming scheme](https://www.balena.io/docs/reference/base-images/base-images/#how-the-image-naming-scheme-works) and follows the pattern below.
 
 ```plain
-wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>
+wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>-(build|run)
 ```
 
 #### Image Names
@@ -64,22 +66,25 @@ wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>
 
 - `<swift_version>` is the version of Swift and is required.
 - `<distro_version>` is the version of the Linux distribution and is required if a distribution is specified in the image name.
+- `(build|run)` specifies either the `build` or `run` image variant and is required. The `build` variant includes the Swift compiler, Swift Package Manager, and other tools needed to build and run a Swift app from source. The `run` variant is much lighter-weight, does not include the Swift compiler, and is designed to run an already built Swift app. The `build` and `run` image variants can be used together in a multi-stage Dockerfile to produce a smaller image that's ready for deployment.
 
 #### Examples
 
-`wlisac/raspberrypi3-swift:5.0`
+`wlisac/raspberrypi3-swift:5.0.1-build`
 
 - `<hardware>`: raspberrypi3 – the Raspberry Pi 3 device type
 - `<distro>`: omitted – defaulted to Debian
 - `<swift_version>`: 5.0 – specifies Swift version 5.0
 - `<distro_version>`: omitted – defaulted to Stretch
+- `(build|run)`: build – specifies the `build` variant for building a Swift app from source
 
-`wlisac/raspberrypi3-ubuntu-swift:4.2.3-bionic`
+`wlisac/raspberrypi3-ubuntu-swift:4.2.3-bionic-run`
 
 - `<hardware>`: raspberrypi3 – the Raspberry Pi 3 device type
 - `<distro>`: ubuntu
 - `<swift_version>`: 4.2.3 – specifies Swift version 4.2.3
 - `<distro_version>`: bionic – Ubuntu 18.04
+- `(build|run)`: run – specifies the `run` variant for running an already built Swift app
 
 ## Acknowledgments
 
