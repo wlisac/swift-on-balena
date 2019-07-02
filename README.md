@@ -47,7 +47,7 @@ There are several image variants available depending on hardware, Linux distribu
 - Swift Versions
     - Swift 4 (`4.2.3`)
     - Swift 5 (`5.0.1`, `5.0`)
-- `build` and `run` image variants for multi-stage builds
+- `build` and `run` image variants for [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/)
 
 ### Image Naming Scheme
 
@@ -66,7 +66,7 @@ wlisac/<hardware>-<distro>-swift:<swift_version>-<distro_version>-(build|run)
 
 - `<swift_version>` is the version of Swift and is required.
 - `<distro_version>` is the version of the Linux distribution and is required if a distribution is specified in the image name.
-- `(build|run)` specifies either the `build` or `run` image variant and is required. The `build` variant includes the Swift compiler, Swift Package Manager, and other tools needed to build and run a Swift app from source. The `run` variant is much lighter-weight, does not include the Swift compiler, and is designed to run an already built Swift app. The `build` and `run` image variants can be used together in a multi-stage Dockerfile to produce a smaller image that's ready for deployment.
+- `(build|run)` specifies either the `build` or `run` image variant and is required. The `build` variant includes the Swift compiler, Swift Package Manager, and other tools needed to build and run a Swift app from source. The `run` variant is much lighter-weight, does not include the Swift compiler, and is designed to run an already built Swift app. The `build` and `run` image variants can be used together in a [multi-stage Dockerfile](https://github.com/wlisac/balena-swift-hello-world/blob/b439fddbbda93019ed8747d249efc9fc8bb4c4c7/Dockerfile.raspberrypi3) to produce a smaller image that's ready for deployment.
 
 #### Examples
 
