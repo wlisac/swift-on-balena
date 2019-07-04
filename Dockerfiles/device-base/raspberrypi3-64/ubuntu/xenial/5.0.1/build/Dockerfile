@@ -2,7 +2,7 @@
 
 # wlisac/raspberrypi3-64-ubuntu-swift:5.0.1-xenial-build
 
-ARG BASE_IMAGE=balenalib/raspberrypi3-64-ubuntu:xenial
+ARG BASE_IMAGE=balenalib/raspberrypi3-64-ubuntu:xenial-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations

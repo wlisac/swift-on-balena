@@ -2,7 +2,7 @@
 
 # wlisac/generic-armv7ahf-ubuntu-swift:4.2.3-bionic-build
 
-ARG BASE_IMAGE=balenalib/generic-armv7ahf-ubuntu:bionic
+ARG BASE_IMAGE=balenalib/generic-armv7ahf-ubuntu:bionic-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations

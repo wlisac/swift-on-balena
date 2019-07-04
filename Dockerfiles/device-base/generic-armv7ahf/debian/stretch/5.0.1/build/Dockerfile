@@ -2,7 +2,7 @@
 
 # wlisac/generic-armv7ahf-debian-swift:5.0.1-stretch-build
 
-ARG BASE_IMAGE=balenalib/generic-armv7ahf-debian:stretch
+ARG BASE_IMAGE=balenalib/generic-armv7ahf-debian:stretch-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations

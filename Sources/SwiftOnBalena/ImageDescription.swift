@@ -62,7 +62,7 @@ extension ImageDescription {
     }
     
     var balenaFromDockerTag: String {
-        return "balenalib/\(base.name)-\(operatingSystem.name):\(operatingSystem.version)"
+        return "balenalib/\(base.name)-\(operatingSystem.name):\(operatingSystem.version)-\(buildVariant.rawValue)"
     }
     
     func folder(createIfNeeded: Bool = false) throws -> Folder {

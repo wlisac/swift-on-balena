@@ -2,7 +2,7 @@
 
 # wlisac/raspberry-pi2-ubuntu-swift:5.0.1-bionic-build
 
-ARG BASE_IMAGE=balenalib/raspberry-pi2-ubuntu:bionic
+ARG BASE_IMAGE=balenalib/raspberry-pi2-ubuntu:bionic-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations

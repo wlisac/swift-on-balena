@@ -2,7 +2,7 @@
 
 # wlisac/raspberry-pi2-ubuntu-swift:5.0-bionic-run
 
-ARG BASE_IMAGE=balenalib/raspberry-pi2-ubuntu:bionic
+ARG BASE_IMAGE=balenalib/raspberry-pi2-ubuntu:bionic-run
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations
@@ -22,7 +22,7 @@ RUN curl -L -o $TARBALL_FILE $TARBALL_URL \
 
 # Create base image
 
-FROM $BASE_IMAGE-run
+FROM "$BASE_IMAGE"
 
 LABEL maintainer "Will Lisac <will@lisac.org>"
 LABEL Description="Docker Container for Swift on Balena"
