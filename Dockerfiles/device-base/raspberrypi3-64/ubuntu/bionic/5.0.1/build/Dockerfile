@@ -11,7 +11,7 @@ FROM balenalib/aarch64-ubuntu:bionic as downloader
 
 LABEL Description="Swift Downloader"
 
-ARG TARBALL_URL=https://github.com/futurejones/swift-arm64/releases/download/v5.0.1-RELEASE/swift-5.0.1-aarch64-RELEASE-Ubuntu-18.04_2019-05-17.tar.gz
+ARG TARBALL_URL=https://github.com/futurejones/swift-arm64/releases/download/v5.0.1-RELEASE/swift-5.0.1-aarch64-RELEASE-Ubuntu-18.04-patched_2019-07-03.tar.gz
 ARG TARBALL_FILE=swift.tgz
 
 WORKDIR /swift
