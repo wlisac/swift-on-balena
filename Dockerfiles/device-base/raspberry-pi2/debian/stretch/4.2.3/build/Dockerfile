@@ -2,7 +2,7 @@
 
 # wlisac/raspberry-pi2-debian-swift:4.2.3-stretch-build
 
-ARG BASE_IMAGE=balenalib/raspberry-pi2-debian:stretch
+ARG BASE_IMAGE=balenalib/raspberry-pi2-debian:stretch-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations

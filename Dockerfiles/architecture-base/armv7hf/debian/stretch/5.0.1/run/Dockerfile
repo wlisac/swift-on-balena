@@ -1,6 +1,6 @@
 # wlisac/armv7hf-debian-swift:5.0.1-stretch-run
 
-ARG BASE_IMAGE=balenalib/armv7hf-debian:stretch
+ARG BASE_IMAGE=balenalib/armv7hf-debian:stretch-run
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations
@@ -20,7 +20,7 @@ RUN curl -L -o $TARBALL_FILE $TARBALL_URL \
 
 # Create base image
 
-FROM $BASE_IMAGE-run
+FROM "$BASE_IMAGE"
 
 LABEL maintainer "Will Lisac <will@lisac.org>"
 LABEL Description="Docker Container for Swift on Balena"

@@ -2,7 +2,7 @@
 
 # wlisac/generic-armv7ahf-ubuntu-swift:5.0-xenial-build
 
-ARG BASE_IMAGE=balenalib/generic-armv7ahf-ubuntu:xenial
+ARG BASE_IMAGE=balenalib/generic-armv7ahf-ubuntu:xenial-build
 
 # Download and decompress the tarball into an intermediate container
 # to improve cache accross different base image variations
