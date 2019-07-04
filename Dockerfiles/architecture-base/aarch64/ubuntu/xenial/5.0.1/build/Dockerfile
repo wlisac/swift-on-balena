@@ -9,7 +9,7 @@ FROM balenalib/aarch64-ubuntu:xenial as downloader
 
 LABEL Description="Swift Downloader"
 
-ARG TARBALL_URL=https://github.com/futurejones/swift-arm64/releases/download/v5.0.1-RELEASE/swift-5.0.1-aarch64-RELEASE-Ubuntu-16.04_2019-04-24.tar.gz
+ARG TARBALL_URL=https://github.com/futurejones/swift-arm64/releases/download/v5.0.1-RELEASE/swift-5.0.1-aarch64-RELEASE-Ubuntu-16.04-patched_2019-07-03.tar.gz
 ARG TARBALL_FILE=swift.tgz
 
 WORKDIR /swift
