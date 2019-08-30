@@ -28,7 +28,8 @@ public enum Device: String, Equatable, CaseIterable, CustomStringConvertible {
     case raspberryPi = "raspberry-pi"
     case raspberryPi2 = "raspberry-pi2"
     case raspberryPi3 = "raspberrypi3"
-    case raspberryPi364 = "raspberrypi3-64"
+    case raspberryPi3_64 = "raspberrypi3-64"
+    case raspberryPi4_64 = "raspberrypi4-64"
     
     case genericARMv7aHF = "generic-armv7ahf"
     case genericAArch64 = "generic-aarch64"
@@ -41,7 +42,9 @@ public enum Device: String, Equatable, CaseIterable, CustomStringConvertible {
             return .armv7hf
         case .raspberryPi3:
             return .armv7hf
-        case .raspberryPi364:
+        case .raspberryPi3_64:
+            return .aarch64
+        case .raspberryPi4_64:
             return .aarch64
         case .genericARMv7aHF:
             return .armv7hf
@@ -58,8 +61,10 @@ public enum Device: String, Equatable, CaseIterable, CustomStringConvertible {
             return "Raspberry Pi 2"
         case .raspberryPi3:
             return "Raspberry Pi 3"
-        case .raspberryPi364:
+        case .raspberryPi3_64:
             return "Raspberry Pi 3 (using 64 bit OS)"
+        case .raspberryPi4_64:
+            return "Raspberry Pi 4 (using 64 bit OS)"
         case .genericARMv7aHF:
             return "Generic ARMv7-a HF"
         case .genericAArch64:

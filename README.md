@@ -26,6 +26,7 @@ Use this [sample project](https://github.com/wlisac/balena-swift-hello-world) to
 | Raspberry Pi 2                   | armv7hf      | 5.0.1 | [`wlisac/raspberry-pi2-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi2-swift/tags)       |
 | Raspberry Pi 3                   | armv7hf      | 5.0.1 | [`wlisac/raspberrypi3-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-swift/tags)         |
 | Raspberry Pi 3 (using 64 bit OS) | aarch64      | 5.0.1 | [`wlisac/raspberrypi3-64-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags)   |
+| Raspberry Pi 4 (using 64 bit OS) | aarch64      | 5.0.1 | [`wlisac/raspberrypi4-64-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/raspberrypi4-64-swift/tags)   |
 | Generic ARMv7-a HF               | armv7hf      | 5.0.1 | [`wlisac/generic-armv7ahf-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/generic-armv7ahf-swift/tags) |
 | Generic AARCH64 (ARMv8)          | aarch64      | 5.0.1 | [`wlisac/generic-aarch64-swift:5.0.1-build`](https://hub.docker.com/r/wlisac/generic-aarch64-swift/tags)   |
 
@@ -39,6 +40,7 @@ There are several image variants available depending on hardware, Linux distribu
     - Raspberry Pi 2
     - Raspberry Pi 3
     - Raspberry Pi 3 (using 64 bit OS)
+    - Raspberry Pi 4 (using 64 bit OS)
     - Generic ARMv7-a HF
     - Generic AARCH64 (ARMv8)
 - Linux Distributions
