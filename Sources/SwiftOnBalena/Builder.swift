@@ -201,12 +201,41 @@ public class Builder {
         try command.finish()
     }
     
-    public func tagDefaultDeviceDockerImages(filter: ImageDescriptionFilter) throws {
-        let defaultImages = try defaultDeviceDockerImageDescriptions(filter: filter)
-        
+    public func tagDefaultDockerImages(filter: ImageDescriptionFilter) throws {
+        if filter.baseType == nil {
+            let defaultDeviceImages = try defaultDeviceDockerImageDescriptions(filter: filter)
+            try tagDefaultDockerImages(defaultDeviceImages)
+            
+            let defaultArchitectureImages = try defaultArchitectureDockerImageDescriptions(filter: filter)
+            try tagDefaultDockerImages(defaultArchitectureImages)
+        } else {
+            let defaultImages = try defaultDockerImageDescriptions(filter: filter)
+            try tagDefaultDockerImages(defaultImages)
+        }
+    }
+    
+    private func tagDefaultDockerImages(_ images: [ImageDescription], pullImages: Bool = false) throws {
         let context = CustomContext(main)
         
-        defaultImages.forEach { imageDescription in
+        print("Tag Manifest")
+        images.forEach { imageDescription in
+            print("    - \(imageDescription.defaultOSDockerTag)")
+        }
+        print()
+        
+        images.forEach { imageDescription in
+            if pullImages {
+                let pullCommand = context.runAsyncAndPrint(bash: "docker pull \(imageDescription.dockerTag)")
+                currentCommand = pullCommand
+                do {
+                    try pullCommand.finish()
+                    print("Pulled \(imageDescription.dockerTag)")
+                } catch {
+                    print("ERROR: Failed to pull \(imageDescription.dockerTag). Skipping this tag.")
+                    return
+                }
+            }
+            
             let tagCommand = context.runAsyncAndPrint(bash: "docker tag \(imageDescription.dockerTag) \(imageDescription.defaultOSDockerTag)")
             currentCommand = tagCommand
             do {
@@ -218,20 +247,31 @@ public class Builder {
         }
     }
     
-    public func pushDefaultDeviceDockerImages(filter: ImageDescriptionFilter) throws {
-        let defaultImages = try defaultDeviceDockerImageDescriptions(filter: filter)
-        
+    public func pushDefaultDockerImages(filter: ImageDescriptionFilter) throws {
+        if filter.baseType == nil {
+            let defaultDeviceImages = try defaultDeviceDockerImageDescriptions(filter: filter)
+            try pushDefaultDockerImages(defaultDeviceImages)
+            
+            let defaultArchitectureImages = try defaultArchitectureDockerImageDescriptions(filter: filter)
+            try pushDefaultDockerImages(defaultArchitectureImages)
+        } else {
+            let defaultImages = try defaultDockerImageDescriptions(filter: filter)
+            try pushDefaultDockerImages(defaultImages)
+        }
+    }
+    
+    public func pushDefaultDockerImages(_ images: [ImageDescription]) throws {
         let context = CustomContext(main)
         
         print("Push Manifest")
-        defaultImages.forEach { imageDescription in
+        images.forEach { imageDescription in
             print("    - \(imageDescription.defaultOSDockerTag)")
         }
         print()
         
         var failedImages = [ImageDescription]()
         
-        defaultImages.forEach { imageDescription in
+        images.forEach { imageDescription in
             let tagCommand = context.runAsyncAndPrint(bash: "docker push \(imageDescription.defaultOSDockerTag)")
             currentCommand = tagCommand
             do {
@@ -261,16 +301,30 @@ public class Builder {
     }
     
     func defaultDeviceDockerImageDescriptions(filter: ImageDescriptionFilter) throws -> [ImageDescription] {
-        let deviceImageDescriptions = try ImageDescription.imageDescriptions(for: filter).filter { $0.isDeviceBase }
+        var filter = filter
+        filter.baseType = .device
+        return try defaultDockerImageDescriptions(filter: filter)
+    }
+    
+    func defaultArchitectureDockerImageDescriptions(filter: ImageDescriptionFilter) throws -> [ImageDescription] {
+        var filter = filter
+        filter.baseType = .architecture
+        return try defaultDockerImageDescriptions(filter: filter)
+    }
+    
+    private func defaultDockerImageDescriptions(filter: ImageDescriptionFilter) throws -> [ImageDescription] {
+        precondition(filter.baseType != nil)
+        
+        let deviceImageDescriptions = try ImageDescription.imageDescriptions(for: filter)
         
         let groupedByVersion = Dictionary(grouping: deviceImageDescriptions) { $0.swiftVersion }
         
         var defaultImages = [ImageDescription]()
         
         groupedByVersion.forEach { _, imageDescriptions in
-            let groupedByDevice = Dictionary(grouping: imageDescriptions) { $0.base }
+            let groupedByBase = Dictionary(grouping: imageDescriptions) { $0.base }
             
-            groupedByDevice.forEach { _, imageDescriptions in
+            groupedByBase.forEach { _, imageDescriptions in
                 
                 var defaultImage: ImageDescription?
                 for os in preferredOperatingSystems() {

@@ -120,7 +120,7 @@ let tagDefaultImages = command(
                                                 baseName: baseName,
                                                 buildVariant: buildVariant)
     builder = Builder()
-    try builder?.tagDefaultDeviceDockerImages(filter: filter)
+    try builder?.tagDefaultDockerImages(filter: filter)
 }
 
 let pushDefaultImages = command(
@@ -138,7 +138,7 @@ let pushDefaultImages = command(
                                                     baseName: baseName,
                                                     buildVariant: buildVariant)
     builder = Builder()
-    try builder?.pushDefaultDeviceDockerImages(filter: filter)
+    try builder?.pushDefaultDockerImages(filter: filter)
 }
 
 let main = Group {
