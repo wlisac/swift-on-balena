@@ -28,10 +28,10 @@ Device based images are a great way to get started with Swift on a specific devi
 | Raspberry Pi (v1 or Zero)        | armv6        | 5.1   | [`wlisac/raspberry-pi-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi-swift/tags)         |
 | Raspberry Pi 2                   | armv7hf      | 5.1   | [`wlisac/raspberry-pi2-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi2-swift/tags)       |
 | Raspberry Pi 3                   | armv7hf      | 5.1   | [`wlisac/raspberrypi3-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-swift/tags)         |
-| Raspberry Pi 3 (using 64 bit OS) | aarch64      | 5.1   | [`wlisac/raspberrypi3-64-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags)   |
-| Raspberry Pi 4 (using 64 bit OS) | aarch64      | 5.1   | [`wlisac/raspberrypi4-64-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi4-64-swift/tags)   |
+| Raspberry Pi 3 (using 64 bit OS) | aarch64      | 5.5.1 | [`wlisac/raspberrypi3-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags)   |
+| Raspberry Pi 4 (using 64 bit OS) | aarch64      | 5.5.1 | [`wlisac/raspberrypi4-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi4-64-swift/tags)   |
 | Generic ARMv7-a HF               | armv7hf      | 5.1   | [`wlisac/generic-armv7ahf-swift:5.1-build`](https://hub.docker.com/r/wlisac/generic-armv7ahf-swift/tags) |
-| Generic AARCH64 (ARMv8)          | aarch64      | 5.1   | [`wlisac/generic-aarch64-swift:5.1-build`](https://hub.docker.com/r/wlisac/generic-aarch64-swift/tags)   |
+| Generic AARCH64 (ARMv8)          | aarch64      | 5.5.1 | [`wlisac/generic-aarch64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/generic-aarch64-swift/tags)   |
 
 ### Architecture Based Images
 Architecture based images are useful when building an image for multiple device types with a common architecture.
@@ -40,7 +40,7 @@ Architecture based images are useful when building an image for multiple device 
 |-------------------------------------------------------------------------------------------------|--------------|-------|----------------------------------------------------------------------------------------|
 | Raspberry Pi (v1 or Zero)                                                                       | armv6        | 5.1   | [`wlisac/rpi-swift:5.1-build`](https://hub.docker.com/r/wlisac/rpi-swift/tags)         |
 | Raspberry Pi 2<br>Raspberry Pi 3<br>Generic ARMv7-a HF                                          | armv7hf      | 5.1   | [`wlisac/armv7hf-swift:5.1-build`](https://hub.docker.com/r/wlisac/armv7hf-swift/tags) |
-| Raspberry Pi 3 (using 64 bit OS)<br>Raspberry Pi 4 (using 64 bit OS)<br>Generic AARCH64 (ARMv8) | aarch64      | 5.1   | [`wlisac/aarch64-swift:5.1-build`](https://hub.docker.com/r/wlisac/aarch64-swift/tags) |
+| Raspberry Pi 3 (using 64 bit OS)<br>Raspberry Pi 4 (using 64 bit OS)<br>Generic AARCH64 (ARMv8) | aarch64      | 5.5.1 | [`wlisac/aarch64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/aarch64-swift/tags) |
 
 ## Image Variants
 
@@ -59,7 +59,7 @@ There are several image variants available depending on hardware, Linux distribu
     - Ubuntu: Bionic and Xenial
 - Swift Versions
     - Swift 4 (`4.2.3`)
-    - Swift 5 (`5.1`, `5.0.1`, `5.0`)
+    - Swift 5 (`5.5.1`, `5.1`, `5.0.1`, `5.0`)
 - `build` and `run` image variants for [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/)
 
 ### Image Naming Scheme

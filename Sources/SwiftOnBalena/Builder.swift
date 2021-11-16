@@ -84,7 +84,26 @@ public class Builder {
         
         var context = CustomContext(main)
         context.currentdirectory = try imageDescription.folder().path
-        let command = context.runAsyncAndPrint("docker", "build", "--pull", "-t", imageDescription.dockerTag, "-f", file.name, ".")
+        
+        // Platform is specified explicitly for now:
+        // https://github.com/docker/cli/issues/3286#issuecomment-957336105
+        //
+        // If this is fixed in the future and we want to try and remove it we need to verify
+        // the following works when adding a new Swift version:
+        //
+        // - The built image matches the architecture specified by the balena base image
+        //
+        // - When we run "swift run Run test --swiftVersion XXX" the local image is found
+        //   even when we haven't pushed and new image to Docker hub. Without specifying the
+        //   the platform it currently fails to build images in SwiftOnBalenaTestSuite
+        //   because it fails to find the new local image.
+        
+        let command = context.runAsyncAndPrint("docker", "build",
+                                               "--platform", imageDescription.base.dockerPlatform,
+                                               "--pull",
+                                               "-t", imageDescription.dockerTag,
+                                               "-f", file.name,
+                                               ".")
         currentCommand = command
         try command.finish()
         

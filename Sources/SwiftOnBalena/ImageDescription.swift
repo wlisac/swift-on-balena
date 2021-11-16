@@ -196,6 +196,17 @@ public enum ImageBase: Hashable, CustomStringConvertible {
             return architecture
         }
     }
+    
+    var dockerPlatform: String {
+        switch architecture {
+        case .rpi:
+            return "linux/arm"
+        case .armv7hf:
+            return "linux/arm"
+        case .aarch64:
+            return "linux/arm64"
+        }
+    }
 }
 
 public enum BuildVariant: String {
