@@ -5,7 +5,7 @@ Swift on Balena Docker images support a subset of [Balena's devices and architec
 | Device Name                                 | Balena Device Type | Balena Architecture |
 |---------------------------------------------|--------------------|---------------------|
 | Raspberry Pi (v1 or Zero)                   | raspberry-pi       | rpi                 |
-| Raspberry Pi Zero 2 Wi-Fi (64-bit OS)       | raspberrypi0-2w-64 | aarch64             |
+| Raspberry Pi Zero 2 W (64-bit OS)           | raspberrypi0-2w-64 | aarch64             |
 | Raspberry Pi 2                              | raspberry-pi2      | armv7hf             |
 | Raspberry Pi 3                              | raspberrypi3       | armv7hf             |
 | Raspberry Pi 3 (64-bit OS)                  | raspberrypi3-64    | aarch64             |
