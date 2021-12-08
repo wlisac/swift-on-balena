@@ -13,8 +13,11 @@ import MarkdownGenerator
 public class Generator {
     public init() { }
     
-    public func generateDeviceDockerfiles() throws {
-        let architectureFilter = ImageDescriptionFilter(baseType: .architecture)
+    public func generateDeviceDockerfiles(filter: ImageDescriptionFilter) throws {
+        precondition(filter.baseType == nil, "Base type filter is not allowed when generating device dockerfiles.")
+        
+        var architectureFilter = filter
+        architectureFilter.baseType = .architecture
         
         let imageDescriptions = try ImageDescription.imageDescriptions(for: architectureFilter)
         

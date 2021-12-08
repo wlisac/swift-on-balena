@@ -17,12 +17,12 @@ enum BuildCommandError: Error, CustomStringConvertible {
 
 // MARK: - Arg Helpers
 
-func imageDescriptionFilterFromArgs(osName: String,
-                                    osVersion: String,
-                                    swiftVersion: String,
-                                    baseType: String,
-                                    baseName: String,
-                                    buildVariant: String) throws -> ImageDescriptionFilter {
+func imageDescriptionFilterFromArgs(osName: String = "",
+                                    osVersion: String = "",
+                                    swiftVersion: String = "",
+                                    baseType: String = "",
+                                    baseName: String = "",
+                                    buildVariant: String = "") throws -> ImageDescriptionFilter {
     let baseTypeEnumValue: ImageDescriptionFilter.BaseType?
     
     if baseType.isEmpty {
@@ -100,9 +100,13 @@ let pushCommand = command(
     try builder?.pushDockerImages(filter: filter)
 }
 
-let generateCommand = command {
+let generateCommand = command(
+    Option("swiftVersion", default: "")
+) { swiftVersion in
+    let filter = try imageDescriptionFilterFromArgs(swiftVersion: swiftVersion)
+    
     let generator = Generator()
-    try generator.generateDeviceDockerfiles()
+    try generator.generateDeviceDockerfiles(filter: filter)
 }
 
 let tagDefaultImages = command(
