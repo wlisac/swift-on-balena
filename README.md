@@ -26,7 +26,7 @@ Device based images are a great way to get started with Swift on a specific devi
 | Device                                | Architecture | Swift | Docker Image                                                                                             |
 |---------------------------------------|--------------|-------|----------------------------------------------------------------------------------------------------------|
 | Raspberry Pi (v1 or Zero)             | armv6        | 5.1   | [`wlisac/raspberry-pi-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi-swift/tags)         |
-| Raspberry Pi Zero 2 Wi-Fi<br>(64-bit OS) | aarch64      | 5.5.1 | [`wlisac/raspberrypi0-2w-64-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi0-2w-64-swift/tags)         |
+| Raspberry Pi Zero 2 Wi-Fi<br>(64-bit OS) | aarch64      | 5.5.1 | [`wlisac/raspberrypi0-2w-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi0-2w-64-swift/tags)         |
 | Raspberry Pi 2                        | armv7hf      | 5.1   | [`wlisac/raspberry-pi2-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi2-swift/tags)       |
 | Raspberry Pi 3                        | armv7hf      | 5.1   | [`wlisac/raspberrypi3-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-swift/tags)         |
 | Raspberry Pi 3 (64-bit OS)            | aarch64      | 5.5.1 | [`wlisac/raspberrypi3-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags)   |
