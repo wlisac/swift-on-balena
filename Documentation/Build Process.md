@@ -10,7 +10,7 @@ Below is an example process to add Swift 5.0.1 for aarch64 devices:
 - Update Dockerfile comment (`# wlisac/aarch64-ubuntu-swift:5.0.1-xenial-build`) and tarball URL
 - Run `swift run Run build --swiftVersion 5.0.1` to build the architecture base images
 - Run `swift run Run test --swiftVersion 5.0.1` to test the architecture base images
-- Run `swift run Run generate` to generate the device base image Dockerfiles
+- Run `swift run Run generate --swiftVersion 5.0.1` to generate the device base image Dockerfiles
 - Run `swift run Run build --swiftVersion 5.0.1` to build all of the new images
 - If you want to test the new device images, you can run `swift run Run test --swiftVersion 5.0.1` again
 - Once all of the images are built and tested, time to push: `swift run Run push --swiftVersion 5.0.1`
