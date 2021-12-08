@@ -61,7 +61,7 @@ public enum Device: String, Equatable, CaseIterable, CustomStringConvertible {
         case .raspberryPi:
             return "Raspberry Pi (v1 or Zero)"
         case .raspberrypi0_2w_64:
-            return "Raspberry Pi Zero 2 Wi-Fi (64-bit OS)"
+            return "Raspberry Pi Zero 2 W (64-bit OS)"
         case .raspberryPi2:
             return "Raspberry Pi 2"
         case .raspberryPi3:

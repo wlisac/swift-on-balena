@@ -26,7 +26,7 @@ Device based images are a great way to get started with Swift on a specific devi
 | Device                                | Architecture | Swift | Docker Image                                                                                             |
 |---------------------------------------|--------------|-------|----------------------------------------------------------------------------------------------------------|
 | Raspberry Pi (v1 or Zero)             | armv6        | 5.1   | [`wlisac/raspberry-pi-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi-swift/tags)         |
-| Raspberry Pi Zero 2 Wi-Fi<br>(64-bit OS) | aarch64      | 5.5.1 | [`wlisac/raspberrypi0-2w-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi0-2w-64-swift/tags)         |
+| Raspberry Pi Zero 2 W<br>(64-bit OS) | aarch64      | 5.5.1 | [`wlisac/raspberrypi0-2w-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi0-2w-64-swift/tags)         |
 | Raspberry Pi 2                        | armv7hf      | 5.1   | [`wlisac/raspberry-pi2-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberry-pi2-swift/tags)       |
 | Raspberry Pi 3                        | armv7hf      | 5.1   | [`wlisac/raspberrypi3-swift:5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-swift/tags)         |
 | Raspberry Pi 3 (64-bit OS)            | aarch64      | 5.5.1 | [`wlisac/raspberrypi3-64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/raspberrypi3-64-swift/tags)   |
@@ -41,7 +41,7 @@ Architecture based images are useful when building an image for multiple device 
 |-------------------------------------------------------------------------------------------------|--------------|-------|----------------------------------------------------------------------------------------|
 | Raspberry Pi (v1 or Zero)                                                                       | armv6        | 5.1   | [`wlisac/rpi-swift:5.1-build`](https://hub.docker.com/r/wlisac/rpi-swift/tags)         |
 | Raspberry Pi 2<br>Raspberry Pi 3<br>Generic ARMv7-a HF                                          | armv7hf      | 5.1   | [`wlisac/armv7hf-swift:5.1-build`](https://hub.docker.com/r/wlisac/armv7hf-swift/tags) |
-| Raspberry Pi Zero 2 Wi-Fi (64-bit OS)<br>Raspberry Pi 3 (64-bit OS)<br>Raspberry Pi 4 (64-bit OS)<br>Generic AARCH64 (ARMv8)             | aarch64      | 5.5.1 | [`wlisac/aarch64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/aarch64-swift/tags) |
+| Raspberry Pi Zero 2 W (64-bit OS)<br>Raspberry Pi 3 (64-bit OS)<br>Raspberry Pi 4 (64-bit OS)<br>Generic AARCH64 (ARMv8)             | aarch64      | 5.5.1 | [`wlisac/aarch64-swift:5.5.1-build`](https://hub.docker.com/r/wlisac/aarch64-swift/tags) |
 
 ## Image Variants
 
@@ -49,7 +49,7 @@ There are several image variants available depending on hardware, Linux distribu
 
 - Devices
     - Raspberry Pi (v1 or Zero)
-    - Raspberry Pi Zero 2 Wi-Fi (64-bit OS)
+    - Raspberry Pi Zero 2 W (64-bit OS)
     - Raspberry Pi 2
     - Raspberry Pi 3
     - Raspberry Pi 3 (64-bit OS)
